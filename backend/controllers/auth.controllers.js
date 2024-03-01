@@ -4,6 +4,9 @@ import bcrypt from "bcryptjs";
 export const signup = async (req, res) => {
   try {
     const { fullName, userName, password, confirmPassword, gender } = req.body;
+    if (!fullName || !userName || !password || !confirmPassword || !gender) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
     if (password !== confirmPassword) {
       return res
@@ -33,6 +36,9 @@ export const signup = async (req, res) => {
       gender,
       profilePic: gender === "male" ? boyAvatar : girlAvatar,
     });
+    if (!newUser) {
+      return res.status(400).json({ message: "Invalid user data" });
+    }
 
     await newUser.save();
 
