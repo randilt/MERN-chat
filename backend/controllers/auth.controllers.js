@@ -60,6 +60,9 @@ export const login = async (req, res) => {
   try {
     const { userName, password } = req.body;
     const user = await User.findOne({ userName: userName });
+    if (!user) {
+      return res.status(400).json({ message: "No user found!" });
+    }
     const isPasswordCorrect = await bcrypt.compare(
       password,
       user.password || ""
@@ -76,11 +79,17 @@ export const login = async (req, res) => {
       gender: user.gender,
     });
   } catch (error) {
-    console.log("Error while signing up: ", error);
+    console.log("Error while logging in: ", error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-export const logout = (req, res) => {
-  console.log("logout user");
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("jwt");
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.log("Error while logging out: ", error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
 };
