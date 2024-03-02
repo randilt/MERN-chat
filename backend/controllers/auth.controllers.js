@@ -50,6 +50,8 @@ export const signup = async (req, res) => {
       userName: newUser.userName,
       gender: newUser.gender,
       profilePic: newUser.profilePic,
+      createdAt: newUser.createdAt,
+      updatedAt: newUser.updatedAt,
     });
   } catch (error) {
     console.log("Error while signing up: ", error);
@@ -78,6 +80,8 @@ export const login = async (req, res) => {
       userName: user.userName,
       profilePic: user.profilePic,
       gender: user.gender,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     });
   } catch (error) {
     console.log("Error while logging in: ", error);
