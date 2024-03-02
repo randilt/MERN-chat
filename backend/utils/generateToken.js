@@ -10,6 +10,7 @@ const generateTokenAndSetCookie = (userId, res) => {
     maxAge: 15 * 24 * 60 * 60 * 1000,
     httpOnly: true, // cookie cannot be accessed or modified by the browser (prevents XSS attacks and cookie theft / cross-site scripting attacks)
     sameSite: "strict", // CSRF (Cross-Site Request Forgery) protection
+    secure: process.env.NODE_ENV === "production" ? true : false, // cookie will only be sent over HTTPS in production
   });
 };
 
