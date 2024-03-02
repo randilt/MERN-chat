@@ -1,3 +1,4 @@
+// Desc: Auth controllers for signup, login and logout routes
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
