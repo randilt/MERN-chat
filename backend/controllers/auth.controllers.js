@@ -56,8 +56,29 @@ export const signup = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
-  console.log("login user");
+export const login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ userName: username });
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user.password || ""
+    ); // if user is not found, user.password will be undefined  and it will throw an error, so we use user.password || "" to avoid that
+    if (!isPasswordCorrect || !user) {
+      return res.status(400).json({ message: "Invalid username or password" });
+    }
+    generateTokenAndSetCookie(user._id, res); // generate token and set cookie in the response header
+    res.status(200).json({
+      _id: user._id,
+      fullName: user.fullName,
+      userName: user.userName,
+      profilePic: user.profilePic,
+      gender: user.gender,
+    });
+  } catch (error) {
+    console.log("Error while signing up: ", error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
 };
 
 export const logout = (req, res) => {
