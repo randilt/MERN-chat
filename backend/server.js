@@ -9,10 +9,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 dotenv.config();
+app.use(cookieParser());
 app.use(express.json()); // for parsing application/json and setting up req.body
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
-app.use(cookieParser());
 
 // app.get("/", (req, res) => {
 //   {
